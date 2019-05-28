@@ -4,7 +4,9 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --prod",
+    "tizen": "npm run build && npm run tizenPackage",
+    "tizenPackage": "cd dist/angularTizenClock && tizen build-web && tizen package -t wgt --sign c4r0n0s -- .buildResult/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

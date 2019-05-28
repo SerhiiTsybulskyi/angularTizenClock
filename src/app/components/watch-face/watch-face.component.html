@@ -1,0 +1,15 @@
+<div class="dial">
+  <div class="dot"></div>
+  <div class="sec-hand" *ngIf="!isAmbientMode" [style.transform]="getRotateStyle(secondAngle)"></div>
+  <div class="sec-hand shadow" *ngIf="!isAmbientMode" [style.transform]="getRotateStyle(secondAngle)"></div>
+  <div class="min-hand" [style.transform]="getRotateStyle(minuteAngle)"></div>
+  <div class="min-hand shadow" [style.transform]="getRotateStyle(minuteAngle)"></div>
+  <div class="hour-hand" [style.transform]="getRotateStyle(hourAngle)"></div>
+  <div class="hour-hand shadow" [style.transform]="getRotateStyle(hourAngle)"></div>
+  <span class="twelve">12</span>
+  <span class="three">3</span>
+  <span class="six">6</span>
+  <span class="nine">9</span>
+  <span class="diallines" *ngFor="let i of secondArray" [style.transform]="getRotateValue(i)"></span>
+  <div class="date">{{ day }}</div>
+</div>
