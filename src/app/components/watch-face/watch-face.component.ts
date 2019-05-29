@@ -22,6 +22,8 @@ export class WatchFaceComponent implements OnInit, OnDestroy, AfterViewInit {
   public isTizen: boolean;
   public gearBatteryLevel = 0;
 
+  public debug: any;
+
   private readonly screenOff = 'SCREEN_OFF';
   private readonly screenOn = 'SCREEN_NORMAL';
 
@@ -57,6 +59,9 @@ export class WatchFaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public anmientModeHandler(event: any): void {
     this.isAmbientMode = event.detail.ambientMode;
+    if (this.isAmbientMode) {
+      this.showHands();
+    }
     this.cdRef.detectChanges();
   }
 
@@ -118,7 +123,9 @@ export class WatchFaceComponent implements OnInit, OnDestroy, AfterViewInit {
     requestAnimationFrame(() => {
       this.hourHandEl.classList.add('visible');
       this.minHandEl.classList.add('visible');
-      this.secHandEl.classList.add('visible');
+      if (!this.isAmbientMode) {
+        this.secHandEl.classList.add('visible');
+      }
     });
   }
 
