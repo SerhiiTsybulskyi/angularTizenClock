@@ -1,6 +1,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
 
 declare var tizen: any;
+declare var navigator: any;
 
 @Component({
   selector: 'app-watch-face',
@@ -15,10 +16,12 @@ export class WatchFaceComponent implements OnInit, OnDestroy, AfterViewInit {
   public minuteAngle: number;
   public hourAngle: number;
   public isAmbientMode = false;
-  public updateInterval: number;
+  public updateTimeInterval: number;
+  public updateBatteryInterval: number;
 
   public isTizen: boolean;
   public timetick = 0;
+  public gearBatteryLevel = 0;
 
   constructor(private elRef: ElementRef, private cdRef: ChangeDetectorRef) {
     this.secondArray = Array(60).fill(1).map((x, i) => i);
@@ -26,13 +29,14 @@ export class WatchFaceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit() {
-    this.updateInterval = setInterval(this.updateTime.bind(this), 1000);
+    this.updateBatteryLevel();
+    this.updateTimeInterval = setInterval(this.updateTime.bind(this), 1000);
+    const fiveMinutes = 300000;
+    this.updateBatteryInterval = setInterval(this.updateBatteryLevel.bind(this), fiveMinutes);
     const date = this.getDate();
     this.day = date.getDate();
 
     document.addEventListener('ambientmodechanged', this.anmientModeHandler.bind(this));
-    /* Check whether high color mode is supported or not*/
-    // var isHighColorMode = tizen.systeminfo.getCapability("http://tizen.org/feature/screen.always_on.high_color");
   }
 
   ngAfterViewInit(): void {
@@ -43,17 +47,6 @@ export class WatchFaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isAmbientMode = event.detail.ambientMode;
     // this.cdRef.markForCheck();
     this.cdRef.detectChanges();
-    // if (this.isAmbientMode) {
-    // clearInterval(this.updateInterval);
-    // document.addEventListener('timetick', () => {
-    //   this.timetick++;
-    //   this.updateTime();
-    // });
-    // } else {
-    // this.updateInterval = setInterval(this.updateTime.bind(this), 1000);
-    // this.timetick = 0;
-    // document.removeEventListener('timetick', this.updateTime, false);
-    // }
   }
 
   getRotateValue(index: number): string {
@@ -82,8 +75,21 @@ export class WatchFaceComponent implements OnInit, OnDestroy, AfterViewInit {
     return `rotate(${angle}deg)`;
   }
 
+  updateBatteryLevel() {
+    if (this.isTizen) {
+      tizen.systeminfo.getPropertyValue('BATTERY', (data) => {
+        this.gearBatteryLevel = (data.level * 100.0);
+      });
+    } else {
+      navigator.getBattery().then(a => this.gearBatteryLevel = a.level * 100.0);
+    }
+
+    this.cdRef.detectChanges();
+  }
+
   ngOnDestroy(): void {
-    clearInterval(this.updateInterval);
+    clearInterval(this.updateTimeInterval);
+    clearInterval(this.updateBatteryInterval);
     document.removeEventListener('ambientmodechanged', this.anmientModeHandler, false);
   }
 

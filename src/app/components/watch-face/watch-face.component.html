@@ -1,4 +1,39 @@
 <div class="dial">
+
+  <!--<circle-progress-->
+    <!--class="circle-progress"-->
+    <!--[percent]="20"-->
+    <!--[maxPercent]="100"-->
+    <!--[radius]="176"-->
+    <!--[outerStrokeGradient]="false"-->
+    <!--[outerStrokeWidth]="4"-->
+    <!--[innerStrokeWidth]="4"-->
+    <!--[space]="-4"-->
+    <!--[outerStrokeColor]="'#43a047'"-->
+    <!--[innerStrokeColor]="'#424242'"-->
+    <!--[animation]="true"-->
+    <!--[animateTitle]="false"-->
+    <!--[showUnits]="false"-->
+    <!--[showTitle]="false"-->
+    <!--[showSubtitle]="false"-->
+    <!--[showBackground]="false"-->
+    <!--[animationDuration]="1000"-->
+    <!--[startFromZero]="true"-->
+    <!--[clockwise]="false"-->
+  <!--&gt;</circle-progress>-->
+  <div class="battery">
+    <div class="battery__level">{{ gearBatteryLevel?.toFixed(0) }}<span class="battery__percentage">%</span></div>
+    <round-progress class="battery__progress"
+      [rounded]="true"
+      [responsive]="true"
+      [semicircle]="true"
+      [current]="gearBatteryLevel"
+      [max]="100"
+      [radius]="100"
+      [color]="'#388e3c'"
+    ></round-progress>
+  </div>
+
   <div class="dot"></div>
   <div class="sec-hand" *ngIf="!isAmbientMode" [style.transform]="getRotateStyle(secondAngle)"></div>
   <div class="sec-hand shadow" *ngIf="!isAmbientMode" [style.transform]="getRotateStyle(secondAngle)"></div>

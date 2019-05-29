@@ -5,6 +5,7 @@
     <content src="/dist/angularTizenClock/index.html"/>
     <feature name="http://tizen.org/feature/screen.size.all"/>
     <feature name="http://tizen.org/privilege/alarm"/>
+    <feature name="http://tizen.org/feature/battery"/>
     <icon src="icon.png"/>
     <name>angularTizenClock</name>
     <tizen:profile name="wearable"/>
