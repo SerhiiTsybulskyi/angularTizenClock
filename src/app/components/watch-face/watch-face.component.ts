@@ -20,8 +20,14 @@ export class WatchFaceComponent implements OnInit, OnDestroy, AfterViewInit {
   public updateBatteryInterval: number;
 
   public isTizen: boolean;
-  public timetick = 0;
   public gearBatteryLevel = 0;
+
+  private readonly screenOff = 'SCREEN_OFF';
+  private readonly screenOn = 'SCREEN_NORMAL';
+
+  private secHandEl: HTMLElement;
+  private minHandEl: HTMLElement;
+  private hourHandEl: HTMLElement;
 
   constructor(private elRef: ElementRef, private cdRef: ChangeDetectorRef) {
     this.secondArray = Array(60).fill(1).map((x, i) => i);
@@ -29,23 +35,28 @@ export class WatchFaceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit() {
-    this.updateBatteryLevel();
+    this.showHands();
+    this.initBatteryLevelListener();
+
     this.updateTimeInterval = setInterval(this.updateTime.bind(this), 1000);
-    const fiveMinutes = 300000;
-    this.updateBatteryInterval = setInterval(this.updateBatteryLevel.bind(this), fiveMinutes);
     const date = this.getDate();
     this.day = date.getDate();
-
     document.addEventListener('ambientmodechanged', this.anmientModeHandler.bind(this));
+
+    if (this.isTizen) {
+      tizen.power.setScreenStateChangeListener(this.onScreenStateChangeHandler.bind(this));
+    }
   }
 
   ngAfterViewInit(): void {
     this.cdRef.detach();
+    this.secHandEl = this.elRef.nativeElement.querySelector('.sec-hand:not(.shadow)');
+    this.minHandEl = this.elRef.nativeElement.querySelector('.min-hand:not(.shadow)');
+    this.hourHandEl = this.elRef.nativeElement.querySelector('.hour-hand:not(.shadow)');
   }
 
   public anmientModeHandler(event: any): void {
     this.isAmbientMode = event.detail.ambientMode;
-    // this.cdRef.markForCheck();
     this.cdRef.detectChanges();
   }
 
@@ -67,7 +78,6 @@ export class WatchFaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.minuteAngle = minutes * 6 + seconds * (360 / 3600);
     this.hourAngle = hours * 30 + minutes * (360 / 720);
 
-    // this.cdRef.markForCheck();
     this.cdRef.detectChanges();
   }
 
@@ -75,22 +85,49 @@ export class WatchFaceComponent implements OnInit, OnDestroy, AfterViewInit {
     return `rotate(${angle}deg)`;
   }
 
-  updateBatteryLevel() {
-    if (this.isTizen) {
-      tizen.systeminfo.getPropertyValue('BATTERY', (data) => {
-        this.gearBatteryLevel = (data.level * 100.0);
-      });
-    } else {
-      navigator.getBattery().then(a => this.gearBatteryLevel = a.level * 100.0);
-    }
+  initBatteryLevelListener() {
+    navigator.getBattery().then((battery) => {
+      this.gearBatteryLevel = battery.level * 100.0;
+      battery.onlevelchange = (event) => this.gearBatteryLevel = (event.currentTarget.level * 100.0);
+      this.cdRef.detectChanges();
+    });
+  }
 
-    this.cdRef.detectChanges();
+  onScreenStateChangeHandler(previousState, changedState) {
+    if (changedState === this.screenOn) {
+      this.showHands();
+    } else {
+      this.hideHands();
+    }
   }
 
   ngOnDestroy(): void {
     clearInterval(this.updateTimeInterval);
     clearInterval(this.updateBatteryInterval);
     document.removeEventListener('ambientmodechanged', this.anmientModeHandler, false);
+    navigator.getBattery().then((battery) => {
+      battery.onlevelchange = null;
+    });
+    if (this.isTizen) {
+      tizen.power.unsetScreenStateChangeListener();
+    }
+  }
+
+  private showHands() {
+    this.updateTime();
+    requestAnimationFrame(() => {
+      this.hourHandEl.classList.add('visible');
+      this.minHandEl.classList.add('visible');
+      this.secHandEl.classList.add('visible');
+    });
+  }
+
+  private hideHands() {
+    requestAnimationFrame(() => {
+      this.hourHandEl.classList.remove('visible');
+      this.minHandEl.classList.remove('visible');
+      this.secHandEl.classList.remove('visible');
+    });
   }
 
 }

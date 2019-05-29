@@ -1,0 +1,11 @@
+<ng2-arc-progress class="progress-bar"
+  [size]="70"
+  [strokeWidth]="7"
+  [gap]="45"
+  [progress]="batteryLevel"
+  [progressColor]="progressColor"
+></ng2-arc-progress>
+<div class="battery">
+  <span class="battery__level">{{ batteryLevel }}</span>
+  <span class="battery__percentage">%</span>
+</div>

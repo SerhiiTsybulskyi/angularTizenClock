@@ -21,17 +21,18 @@
     <!--[startFromZero]="true"-->
     <!--[clockwise]="false"-->
   <!--&gt;</circle-progress>-->
-  <div class="battery">
-    <div class="battery__level">{{ gearBatteryLevel?.toFixed(0) }}<span class="battery__percentage">%</span></div>
-    <round-progress class="battery__progress"
-      [rounded]="true"
-      [responsive]="true"
-      [semicircle]="true"
-      [current]="gearBatteryLevel"
-      [max]="100"
-      [radius]="100"
-      [color]="'#388e3c'"
-    ></round-progress>
+  <div class="battery-widget">
+    <!--<div class="battery__level">{{ gearBatteryLevel?.toFixed(0) }}<span class="battery__percentage">%</span></div>-->
+    <!--<round-progress class="battery__progress"-->
+      <!--[rounded]="true"-->
+      <!--[responsive]="true"-->
+      <!--[semicircle]="true"-->
+      <!--[current]="gearBatteryLevel"-->
+      <!--[max]="100"-->
+      <!--[radius]="100"-->
+      <!--[color]="'#388e3c'"-->
+    <!--&gt;</round-progress>-->
+    <app-battery [batteryLevel]="gearBatteryLevel"></app-battery>
   </div>
 
   <div class="dot"></div>

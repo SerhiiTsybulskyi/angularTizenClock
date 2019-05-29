@@ -9,4 +9,6 @@
     <icon src="icon.png"/>
     <name>angularTizenClock</name>
     <tizen:profile name="wearable"/>
+    <!--<tizen:setting background-support="enable" />-->
+  <!--https://developer.samsung.com/forum/board/thread/view.do?boardName=SDK&messageId=306523&listLines=15&startId=zzzzz~&startPage=194&curPage=196-->
 </widget>

@@ -1,0 +1,21 @@
+:host {
+  position: relative;
+}
+
+.battery {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  top: 50%;
+  font-size: 18px;
+  color: #f5f5f5;
+  font-family: Lato, sans-serif;
+
+  &__level {
+
+  }
+
+  &__percentage {
+    font-size: 12px;
+  }
+}
