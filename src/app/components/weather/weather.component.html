@@ -1,0 +1,9 @@
+<div class="weather" *ngIf="isReady" (click)="getWeatherData()">
+  <img class="weather__icon" src="{{ iconUrl }}"/>
+  <div class="weather__info">
+    <div class="weather__temp">{{ temperature?.toFixed(0) }}</div>
+    <div class="weather__units">{{ getUnits() }}</div>
+  </div>
+</div>
+<div class="date-time">{{ lastUpdateTime | date: 'shortTime' }}</div>
+<!--<div class="debug" style="color: #fff">{{ lastUpdateTime }}</div>-->

@@ -1,4 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
+import { DateUtils } from '../../utils/date.utils';
 
 declare var tizen: any;
 declare var navigator: any;
@@ -31,6 +32,8 @@ export class WatchFaceComponent implements OnInit, OnDestroy, AfterViewInit {
   private minHandEl: HTMLElement;
   private hourHandEl: HTMLElement;
 
+  private prevMinutes: number;
+
   constructor(private elRef: ElementRef, private cdRef: ChangeDetectorRef) {
     this.secondArray = Array(60).fill(1).map((x, i) => i);
     this.isTizen = !(typeof tizen === 'undefined');
@@ -41,7 +44,7 @@ export class WatchFaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.initBatteryLevelListener();
 
     this.updateTimeInterval = setInterval(this.updateTime.bind(this), 1000);
-    const date = this.getDate();
+    const date = DateUtils.getDate(this.isTizen);
     this.day = date.getDate();
     document.addEventListener('ambientmodechanged', this.anmientModeHandler.bind(this));
 
@@ -69,12 +72,8 @@ export class WatchFaceComponent implements OnInit, OnDestroy, AfterViewInit {
     return `rotate(${6 * index}deg)`;
   }
 
-  getDate(): Date {
-    return this.isTizen ? tizen.time.getCurrentDateTime() : new Date();
-  }
-
   updateTime(): void {
-    const date = this.getDate();
+    const date = DateUtils.getDate(this.isTizen);
     const seconds = date.getSeconds();
     const minutes = date.getMinutes();
     const hours = date.getHours();
@@ -82,8 +81,25 @@ export class WatchFaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.secondAngle = seconds * 6;
     this.minuteAngle = minutes * 6 + seconds * (360 / 3600);
     this.hourAngle = hours * 30 + minutes * (360 / 720);
+    this.day = date.getDate();
+    if (!this.prevMinutes || this.prevMinutes !== minutes) {
+      setTimeout(() => this.updateDialStyle(minutes));
+    }
 
     this.cdRef.detectChanges();
+  }
+
+  updateDialStyle(minutes): void {
+    const dialLines = this.elRef.nativeElement.querySelectorAll('.diallines');
+    if (dialLines.length) {
+      for (let i = 0; i < dialLines.length; i++) {
+        if (i <= minutes) {
+          dialLines[i].classList.add('highlight');
+        } else {
+          dialLines[i].classList.remove('highlight');
+        }
+      }
+    }
   }
 
   getRotateStyle(angle: number): string {

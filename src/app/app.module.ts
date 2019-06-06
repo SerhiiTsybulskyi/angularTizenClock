@@ -6,35 +6,26 @@ import { Ng2ArcProgressModule } from 'angular2-arc-progress';
 import { AppComponent } from './app.component';
 import { WatchFaceComponent } from './components/watch-face/watch-face.component';
 import { BatteryComponent } from './components/battery/battery.component';
+import { WeatherComponent } from './components/weather/weather.component';
+import { HttpClientModule } from '@angular/common/http';
+import { StepProgressComponent } from './components/step-progress/step-progress.component';
+import { RoundProgressModule } from 'angular-svg-round-progressbar';
+import { StepCounterComponent } from './components/step-counter/step-counter.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     WatchFaceComponent,
-    BatteryComponent
+    BatteryComponent,
+    WeatherComponent,
+    StepProgressComponent,
+    StepCounterComponent
   ],
   imports: [
     BrowserModule,
-    // NgCircleProgressModule.forRoot({
-    //   radius: 60,
-    //   space: -10,
-    //   maxPercent: 100,
-    //   outerStrokeGradient: true,
-    //   outerStrokeWidth: 10,
-    //   outerStrokeColor: '#4882c2',
-    //   outerStrokeGradientStopColor: '#53a9ff',
-    //   innerStrokeColor: '#e7e8ea',
-    //   innerStrokeWidth: 10,
-    //   title: 'UI',
-    //   animateTitle: false,
-    //   animationDuration: 1000,
-    //   showTitle: false,
-    //   showUnits: false,
-    //   showBackground: false
-    // }),
-
-    // RoundProgressModule,
-    Ng2ArcProgressModule
+    HttpClientModule,
+    RoundProgressModule,
+    Ng2ArcProgressModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
