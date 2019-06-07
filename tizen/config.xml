@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets" id="http://yourdomain/angularTizenClock" version="1.0.9" viewmodes="maximized">
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets" id="http://yourdomain/angularTizenClock" version="1.1.0" viewmodes="maximized">
     <tizen:application id="HavCmv9uE8.angularTizenClock" package="HavCmv9uE8" required_version="4.0" ambient_support="enable"/>
     <tizen:category name="http://tizen.org/category/wearable_clock"/>
 
