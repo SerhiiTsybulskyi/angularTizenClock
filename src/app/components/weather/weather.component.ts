@@ -64,8 +64,10 @@ export class WeatherComponent implements OnInit, OnDestroy {
     this.lat = 49.4285;
     this.lon = 32.0621;
     this.updateWeatherData(true);
-
     this.getCurrentLocation(true);
+
+    // this.debug = navigator.appVersion;
+    // this.cdRef.markForCheck();
   }
 
   updateWeatherData(force = false) {
@@ -104,6 +106,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
 
   weatherErrorHandler(err): void {
     this.isReady = false;
+    this.cdRef.markForCheck();
   }
 
   locationUpdateHandler(location: Position) {
@@ -115,6 +118,16 @@ export class WeatherComponent implements OnInit, OnDestroy {
 
   locationErrorHandler(err) {
     this.isLocationMissing = true;
+    const date = DateUtils.getDate(this.isTizen);
+    this.lastUpdateLocationTime = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+      date.getHours(),
+      date.getMinutes(),
+      date.getSeconds()
+    );
+    this.cdRef.markForCheck();
   }
 
   getUnits(): string {
@@ -145,7 +158,6 @@ export class WeatherComponent implements OnInit, OnDestroy {
     this._isReady = value;
     if (this._isReady) {
       this.isInternetMissing = false;
-      this.isLocationMissing = false;
     }
   }
 
