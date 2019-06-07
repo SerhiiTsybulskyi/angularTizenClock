@@ -1,9 +1,25 @@
-<div class="weather" *ngIf="isReady" (click)="getWeatherData()">
-  <img class="weather__icon" src="{{ iconUrl }}"/>
-  <div class="weather__info">
-    <div class="weather__temp">{{ temperature?.toFixed(0) }}</div>
-    <div class="weather__units">{{ getUnits() }}</div>
+<div class="device__status">
+  <ng-container *ngIf="isInternetMissing">
+    <img class="device__status-icon" alt="internet is missing" src="../../../assets/no-internet-connection.svg"/>
+  </ng-container>
+
+  <ng-container *ngIf="isLocationMissing">
+    <img class="device__status-icon" alt="location is missing" src="../../../assets/noun-gps.svg"/>
+  </ng-container>
+</div>
+
+<div class="weather-wrapper">
+  <div class="weather-wrapper__city">{{ city }}</div>
+  <div class="weather" (click)="updateWeatherData(true)">
+    <ng-container *ngIf="isReady">
+      <img alt="weather" class="weather__icon" src="{{ iconUrl }}"/>
+      <div class="weather__info">
+        <div class="weather__temp">{{ temperature?.toFixed(0) }}</div>
+        <div class="weather__units">{{ getUnits() }}</div>
+      </div>
+      <div class="date-time">{{ lastUpdateWeatherTime | amTimeAgo }}</div>
+      <div class="debug" style="color: #fff">{{ debug?.coords?.latitude }}</div>
+      <div class="debug" style="color: #fff">{{ debug?.coords?.longitude }}</div>
+    </ng-container>
   </div>
 </div>
-<div class="date-time">{{ lastUpdateTime | date: 'shortTime' }}</div>
-<!--<div class="debug" style="color: #fff">{{ lastUpdateTime }}</div>-->
