@@ -1,20 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets" id="http://yourdomain/angularTizenClock" version="1.1.0" viewmodes="maximized">
-    <tizen:application id="HavCmv9uE8.angularTizenClock" package="HavCmv9uE8" required_version="4.0" ambient_support="enable"/>
+    <tizen:application id="HavCmv9uE8.angularTizenClock" package="HavCmv9uE8" required_version="3.0" ambient_support="enable"/>
     <tizen:category name="http://tizen.org/category/wearable_clock"/>
 
-    <tizen:privilege name="http://tizen.org/privilege/healthinfo"/>
-    <tizen:privilege name="http://tizen.org/privilege/location"/>
-    <tizen:privilege name="http://tizen.org/privilege/internet"/>
-    <tizen:privilege name="http://tizen.org/privilege/application.launch"/>
-
-    <content src="/dist/angularTizenClock/index.html"/>
     <feature name="http://tizen.org/feature/screen.size.all"/>
     <feature name="http://tizen.org/feature/battery"/>
-    <feature name="http://tizen.org/feature/sensor.pedometer"/>
-    <feature name="http://tizen.org/feature/location.gps"/>
 
-    <icon src="icon.jpg"/>
+    <content src="index.html"/>
+    <icon src="icon.png"/>
     <name>ClassicWatchFace</name>
     <tizen:profile name="wearable"/>
 </widget>
