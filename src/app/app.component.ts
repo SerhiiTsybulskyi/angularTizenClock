@@ -10,7 +10,7 @@ declare var tizen: any;
 })
 export class AppComponent implements OnInit {
   ngOnInit(): void {
-    if (typeof tizen === 'undefined') { return; }
+    if (typeof tizen === 'undefined' || !Boolean(tizen.ppm)) { return; }
     const healthinfoPermission = tizen.ppm.checkPermission('http://tizen.org/privilege/healthinfo');
     const locationPermission = tizen.ppm.checkPermission('http://tizen.org/privilege/location');
     switch (healthinfoPermission) {

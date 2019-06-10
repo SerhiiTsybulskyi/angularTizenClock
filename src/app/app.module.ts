@@ -10,9 +10,6 @@ import { AppComponent } from './app.component';
 import { WatchFaceComponent } from './components/watch-face/watch-face.component';
 import { BatteryComponent } from './components/battery/battery.component';
 import { WeatherComponent } from './components/weather/weather.component';
-import { StepProgressComponent } from './components/step-progress/step-progress.component';
-import { RoundProgressModule } from 'angular-svg-round-progressbar';
-import { StepCounterComponent } from './components/step-counter/step-counter.component';
 
 @NgModule({
   declarations: [
@@ -20,13 +17,10 @@ import { StepCounterComponent } from './components/step-counter/step-counter.com
     WatchFaceComponent,
     BatteryComponent,
     WeatherComponent,
-    StepProgressComponent,
-    StepCounterComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    RoundProgressModule,
     Ng2ArcProgressModule,
     ConnectionServiceModule,
     MomentModule,

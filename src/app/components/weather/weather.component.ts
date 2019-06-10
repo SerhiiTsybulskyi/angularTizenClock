@@ -36,7 +36,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
 
   public debug;
 
-  private readonly weatherUpdateInterval = 30; // minutes
+  private readonly weatherUpdateInterval = 60; // minutes
   private readonly locationUpdateInterval = 3; // hours
   private readonly screenOff = 'SCREEN_OFF';
   private readonly screenOn = 'SCREEN_NORMAL';
@@ -46,11 +46,13 @@ export class WeatherComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    if (this.isTizen) {
-      const internetPermission = tizen.ppm.checkPermission('http://tizen.org/privilege/internet');
-      switch (internetPermission) {
-        case 'PPM_ASK':
-          tizen.ppm.requestPermission('http://tizen.org/privilege/internet');
+    if (this.isTizen && tizen.ppm) {
+      if (tizen.ppm) {
+        const internetPermission = tizen.ppm.checkPermission('http://tizen.org/privilege/internet');
+        switch (internetPermission) {
+          case 'PPM_ASK':
+            tizen.ppm.requestPermission('http://tizen.org/privilege/internet');
+        }
       }
 
       tizen.power.setScreenStateChangeListener(this.onScreenStateChangeHandler.bind(this));

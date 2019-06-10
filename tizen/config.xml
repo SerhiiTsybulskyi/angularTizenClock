@@ -8,7 +8,7 @@
     <tizen:privilege name="http://tizen.org/privilege/internet"/>
     <tizen:privilege name="http://tizen.org/privilege/application.launch"/>
 
-    <content src="/dist/angularTizenClock/index.html"/>
+    <content src="index.html"/>
     <feature name="http://tizen.org/feature/screen.size.all"/>
     <feature name="http://tizen.org/feature/battery"/>
     <feature name="http://tizen.org/feature/sensor.pedometer"/>
